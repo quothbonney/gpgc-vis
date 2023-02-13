@@ -9,7 +9,7 @@ from pyqtgraph.Qt import QtCore, QtGui, QtWidgets
 import sys
 import decode
 
-ori = np.array(decode.read_gtif("../data/2048.tif"))
+ori = np.array(decode.read_gtif("data/512.tif"))
 
 if not( 'app' in locals()):
     app = QtWidgets.QApplication([])
@@ -55,12 +55,15 @@ minZ=np.min(temp_z)
 maxZ=np.max(temp_z)
 rgba_img = cmap((temp_z-minZ)/(maxZ -minZ))
 
+dcd_z = np.array(decode.decompress("./512.gpgc.log", 512))
 
 surf = gl.GLSurfacePlotItem(x=y, y=x, z=temp_z, colors = rgba_img )
-
+dcdsurf = gl.GLSurfacePlotItem(x=y, y=x, z=dcd_z, colors=rgba_img )
 surf.scale(10,10,10)
+dcdsurf.scale(10,10,10)
 # surf.shader()['colorMap'] = np.array(list(np.linspace(-100, 100, 1000)))
-w.addItem(surf)
+#w.addItem(surf)
+w.addItem(dcdsurf)
 
 if __name__ == '__main__':
     import sys

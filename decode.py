@@ -68,6 +68,7 @@ def decompress(filename, sz):
 
     decompressed = np.zeros((sz, sz), dtype=int)
 
+
     x0, y0 = create_offsets(data)
     print(len(x0), len(y0), len(vectors))
     for elem in range(len(x0)):
@@ -83,6 +84,12 @@ def decompress(filename, sz):
                 altitude = (i * m) + (j * n) + k
                 decompressed[y_o + m][x_o + n] = int(altitude)
 
+    """
+    with open(filename + ".txt", "a") as nd_file:
+        for i in range(len(x0)):
+            st = f"{vectors[i][0]} {vectors[i][1]} {vectors[i][2]} {vectors[i][3]} {int(x0[i]*sz)} {int(y0[i]*sz)} \n"
+            nd_file.write(st)
+    """
     return decompressed
 
 
