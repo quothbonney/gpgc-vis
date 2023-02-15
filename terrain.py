@@ -13,7 +13,7 @@ import decode
 from OpenGL.GL import glEnable, glDisable, GL_DEPTH_TEST
 from pyqtgraph.Qt.QtGui import QOpenGLShaderProgram
 
-ori = np.array(decode.read_gtif("data/512.tif"))
+ori = np.array(decode.read_gtif("n31_w113_1arc_v3.tif"))
 
 if not( 'app' in locals()):
     app = QtWidgets.QApplication([])
@@ -46,9 +46,9 @@ gx.scale(100, 10, 1000)
 gz.scale(100, 10, 1000)
 cmap2 = plt.get_cmap('jet')
 
+y = np.linspace(0, 2043, 512) 
+x = np.linspace(0,2043, 512)
 def draw_surf():
-    y = np.linspace(0, 511, 512) 
-    x = np.linspace(0,511, 512)
     temp_z = ori[:(len(x)), :(len(y))] / 2
 
     cmap = plt.get_cmap('twilight_shifted_r')
@@ -60,7 +60,7 @@ def draw_surf():
     #dcdsurf = gl.GLSurfacePlotItem(x=y, y=x, z=dcd_z, colors=img2  )
     #surf.setGLOptions('translucent')
     surf.setGLOptions('opaque')
-    surf.scale(10,10,3)
+    surf.scale(10,10,5)
     #dcdsurf.scale(10,10,10)
     #surf.shader()['colorMap'] = np.array(list(np.linspace(-100, 100, 1000)))
     surf.setDepthValue(0)
@@ -68,8 +68,6 @@ def draw_surf():
     #w.addItem(dcdsurf)
 
 def draw_surf1():
-    y = np.linspace(0, 511, 512) 
-    x = np.linspace(0,511, 512)
     temp_z = ori[:(len(x)), :(len(y))] / 2
 
     cmap = plt.get_cmap('twilight_shifted_r')
@@ -79,67 +77,58 @@ def draw_surf1():
     maxZ=np.max(temp_z)
 
 
-    dcd_z = (np.array(decode.decompress("./1.gpgc.log", 512)) / 2) + 10 
+    dcd_z = (np.array(decode.decompress("./vis.gpgc.log", 2048)) / 2) + 10 
 
 
     img2 = cmap2((temp_z-minZ)/(maxZ -minZ))
-    dcdsurf = gl.GLSurfacePlotItem(x=y, y=x, z=dcd_z, colors=img2  )
+    dcdsurf = gl.GLSurfacePlotItem(x=y, y=x, z=dcd_z[:len(x), :len(y)], colors=img2  )
     #surf.setGLOptions('opaque')
     #surf.scale(10,10,10)
-    dcdsurf.scale(10,10,3)
+    dcdsurf.scale(10,10,5)
     #surf.shader()['colorMap'] = np.array(list(np.linspace(-100, 100, 1000)))
     #surf.setDepthValue(0)
     w.addItem(dcdsurf)
 
 
 def draw_surf2():
-    y = np.linspace(0, 511, 512) 
-    x = np.linspace(0,511, 512)
-    temp_z = ori[:(len(x)), :(len(y))] / 2
 
     cmap = plt.get_cmap('twilight_shifted_r')
     cmap2 = plt.get_cmap('jet')
 
-    minZ=np.min(temp_z)
-    maxZ=np.max(temp_z)
-    rgba_img = cmap((temp_z-minZ)/(maxZ -minZ))
-    img2 = cmap2((temp_z-minZ)/(maxZ -minZ))
 
 
-    dcd_z = (np.array(decode.decompress("./2.gpgc.log", 512)) / 2) + 10 
+    dcd_z = (np.array(decode.decompress("./vis2.gpgc.log", 2048)) / 2)[:len(x), :len(y)] + 10 
 
+    minZ=np.min(dcd_z)
+    maxZ=np.max(dcd_z)
     img2 = cmap2((dcd_z-minZ)/(maxZ -minZ))
 
-    dcdsurf = gl.GLSurfacePlotItem(x=y, y=x, z=dcd_z, colors=img2  )
+    dcdsurf = gl.GLSurfacePlotItem(x=y, y=x, z=dcd_z[:len(x), :len(y)],  colors=img2)
     #surf.setGLOptions('opaque')
     #surf.scale(10,10,10)
-    dcdsurf.scale(10,10,3)
+    dcdsurf.scale(10,10,5)
     #surf.shader()['colorMap'] = np.array(list(np.linspace(-100, 100, 1000)))
     #surf.setDepthValue(0)
     w.addItem(dcdsurf)
 
+
 def draw_surf3():
-    y = np.linspace(0, 511, 512) 
-    x = np.linspace(0,511, 512)
-    temp_z = ori[:(len(x)), :(len(y))] / 2
 
     cmap = plt.get_cmap('twilight_shifted_r')
     cmap2 = plt.get_cmap('jet')
 
-    minZ=np.min(temp_z)
-    maxZ=np.max(temp_z)
-    rgba_img = cmap((temp_z-minZ)/(maxZ -minZ))
-    img2 = cmap2((temp_z-minZ)/(maxZ -minZ))
 
 
-    dcd_z = (np.array(decode.decompress("./3.gpgc.log", 512)) / 2) + 10 
+    dcd_z = (np.array(decode.decompress("./vis3.gpgc.log", 2048)) / 2)[:len(x), :len(y)] + 10 
 
+    minZ=np.min(dcd_z)
+    maxZ=np.max(dcd_z)
     img2 = cmap2((dcd_z-minZ)/(maxZ -minZ))
 
-    dcdsurf = gl.GLSurfacePlotItem(x=y, y=x, z=dcd_z, colors=img2  )
+    dcdsurf = gl.GLSurfacePlotItem(x=y, y=x, z=dcd_z[:len(x), :len(y)],  colors=img2)
     #surf.setGLOptions('opaque')
     #surf.scale(10,10,10)
-    dcdsurf.scale(10,10,3)
+    dcdsurf.scale(10,10,5)
     #surf.shader()['colorMap'] = np.array(list(np.linspace(-100, 100, 1000)))
     #surf.setDepthValue(0)
     w.addItem(dcdsurf)
